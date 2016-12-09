@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const bitmap = fs.readFileSync(`${__dirname}/assets/dummy-bmp.bmp`);
+const bitmap = fs.readFileSync(`${__dirname}../img/palette-bmp.bmp`);
 
 const bmp = {};
 
