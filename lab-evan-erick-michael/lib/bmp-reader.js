@@ -14,7 +14,7 @@ var ourBmp = new bmp(
   bitmap.readInt32LE(46)
 );
 
-console.log(ourBmp);
+// console.log(ourBmp);
 
 // notice that logging the length of the pallette gives us 256... leads
 // me to believe that each 2 chars represents a color in the pallette
@@ -22,4 +22,14 @@ console.log(ourBmp);
 // will correlate to those codes, as in the color pallete lists all possible colors
 // and the pix array will reference those to describe what should be displayed.
 // I'll keep digging
-console.log(ourBmp.colorTable.length);
+
+var createGroupedArray = function(name, arr, chunkSize, newArray) {
+    var groups = [], i;
+    for (i = 0; i < arr.length; i += chunkSize) {
+        groups.push(arr.slice(i, i + chunkSize));
+    }
+    newArray.push(groups);
+    console.log(name, newArray);
+}
+createGroupedArray('colors', ourBmp.colorTable, 4, ourBmp.ourColors);
+createGroupedArray('pixArrayBrokenDown', ourBmp.pixArray, 4, ourBmp.pixArrayBrokenDown);
