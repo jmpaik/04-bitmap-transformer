@@ -12,6 +12,7 @@ bmp.size = bitmap.readInt32LE(2);
 bmp.width = bitmap.readUInt32LE(18);
 bmp.height = bitmap.readUInt32LE(22);
 bmp.pixStart = bitmap.readUInt32LE(10);
+
 bmp.colorPallete = bitmap.readUInt32LE(46);
 // bmp.colorPallete = bitmap.readUInt32LE(54);
 // console.log(bmp.colorPallete);
