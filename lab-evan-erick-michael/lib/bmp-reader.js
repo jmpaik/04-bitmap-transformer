@@ -15,3 +15,11 @@ var ourBmp = new bmp(
 );
 
 console.log(ourBmp);
+
+// notice that logging the length of the pallette gives us 256... leads
+// me to believe that each 2 chars represents a color in the pallette
+// if my theory is correct, I think the representations in the pix array
+// will correlate to those codes, as in the color pallete lists all possible colors
+// and the pix array will reference those to describe what should be displayed.
+// I'll keep digging
+console.log(ourBmp.colorTable.length);
