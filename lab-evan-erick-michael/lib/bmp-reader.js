@@ -3,7 +3,7 @@
 const fs = require('fs');
 
 //open file with fs and read file into buffer
-module.exports = fs.readFile(`${__dirname}../img/palette-bmp.bmp`, (err, bufferData) => {
+module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   if (err) {
     console.log('error', err);
   }
@@ -59,7 +59,7 @@ module.exports = fs.readFile(`${__dirname}../img/palette-bmp.bmp`, (err, bufferD
   };
 
 //call transform function, store array in variable, make one array with all nested arrays
-  var transformedPalette = palette.transoform(palette);
+  var transformedPalette = palette.transform(palette);
   var allArray = [];
 
   transformedPalette.forEach(function(item) {
@@ -75,7 +75,7 @@ module.exports = fs.readFile(`${__dirname}../img/palette-bmp.bmp`, (err, bufferD
   //concat header, transform buffer and tail to read to file
   var newBuffer = Buffer.concat([header, paletteBuffer, tail]);
   //write new buffer to file
-  fs.writeFile(`${__dirname}../img/palette-bmp.bmp`, newBuffer, (err) => {
+  fs.writeFile('../img/palette-bmp.bmp', newBuffer, (err) => {
     if (err) {
       console.log('error', err);
     }
