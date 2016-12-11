@@ -1,6 +1,9 @@
 'use strict';
 
 const fs = require('fs');
+
+const bitmap = fs.readFileSync(`${__dirname}../img/palette-bmp.bmp`);
+
 const bitmap = fs.readFileSync(`../img/palette-bitmap.bmp`);
 var bmp = require('../model/bitmap-constructor.js');
 console.log(bmp);
