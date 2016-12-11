@@ -45,6 +45,18 @@ var bitmap = {};
  //call readPalette function? x-fingers.
  bitmap.readPalette();
 
+ //manipulate values to transform palette for rgb to change colors in palette
+palette.transform = function(data) {
+  for (var i = 0; i < data.length; i++) {
+    var red = Math.floor(Math.random() * 255);
+    var green = Math.floor(Math.random() * 255);
+    var blue = Math.floor(Math.random() * 255);
+
+    data[i] = [red, green, blue, 0];
+  }
+  return data;
+};
+
 // notice that logging the length of the pallette gives us 256... leads
 // me to believe that each 2 chars represents a color in the pallette
 // if my theory is correct, I think the representations in the pix array
@@ -52,13 +64,13 @@ var bitmap = {};
 // and the pix array will reference those to describe what should be displayed.
 // I'll keep digging
 
-var createGroupedArray = function(name, arr, chunkSize, newArray) {
-  var groups = [], i;
-  for (i = 0; i < arr.length; i += chunkSize) {
-    groups.push(arr.slice(i, i + chunkSize));
-  }
-  newArray.push(groups);
-  console.log(name, newArray);
-};
-createGroupedArray('colors', ourBmp.colorTable, 4, ourBmp.ourColors);
-createGroupedArray('pixArrayBrokenDown', ourBmp.pixArray, 4, ourBmp.pixArrayBrokenDown);
+// var createGroupedArray = function(name, arr, chunkSize, newArray) {
+//   var groups = [], i;
+//   for (i = 0; i < arr.length; i += chunkSize) {
+//     groups.push(arr.slice(i, i + chunkSize));
+//   }
+//   newArray.push(groups);
+//   console.log(name, newArray);
+// };
+// createGroupedArray('colors', ourBmp.colorTable, 4, ourBmp.ourColors);
+// createGroupedArray('pixArrayBrokenDown', ourBmp.pixArray, 4, ourBmp.pixArrayBrokenDown);
