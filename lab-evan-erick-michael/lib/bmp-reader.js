@@ -57,6 +57,18 @@ palette.transform = function(data) {
   return data;
 };
 
+//call transform function, store array in variable, make one array with all nested arrays
+var transformedPalette = palette.transoform(palette);
+var allArray = [];
+
+transformedPalette.forEach(function(item) {
+  item.forEach(function(item2) {
+    allArray.push(item2);
+  });
+});
+
+
+
 // notice that logging the length of the pallette gives us 256... leads
 // me to believe that each 2 chars represents a color in the pallette
 // if my theory is correct, I think the representations in the pix array
