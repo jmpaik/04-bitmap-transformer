@@ -7,6 +7,7 @@ module.exports = fs.readFile(`${__dirname}../img/palette-bmp.bmp`, (err, bufferD
   if (err) {
     console.log('error', err);
   }
+
 // const bitmap = fs.readFileSync(`${__dirname}../img/palette-bmp.bmp`);
 // const bitmap = fs.readFileSync(`../img/palette-bitmap.bmp`);
 // var bmp = require('../model/bitmap-constructor.js');
@@ -14,7 +15,7 @@ module.exports = fs.readFile(`${__dirname}../img/palette-bmp.bmp`, (err, bufferD
 // console.log(bmp);
 
 //convert buffer into JS Object
-var bitmap = {};
+  var bitmap = {};
   bitmap.size = bufferData.readInt32LE(2);
   bitmap.pixelStart = bufferData.readInt32LE(10);
   bitmap.dBISize = bufferData.readInt32LE(12);
@@ -29,44 +30,57 @@ var bitmap = {};
 // console.log(ourBmp);
 
 //read color palette into integer array
- var palette = [];
+  var palette = [];
 
- bitmap.readPalette = function() {
-   var counter = 0
-   for (var i = 54; i < bitmap.pixelStart; i += 4) {
-     palette[counter] = [
-       bufferData.readUInt8(i),
-       bufferData.readUInt8(i + 1),
-       bufferData.readUInt8(i + 2),
-       0];
-       counter++;
-   }
- };
+  bitmap.readPalette = function() {
+    var counter = 0;
+    for (var i = 54; i < bitmap.pixelStart; i += 4) {
+      palette[counter] = [
+        bufferData.readUInt8(i),
+        bufferData.readUInt8(i + 1),
+        bufferData.readUInt8(i + 2),
+        0];
+      counter++;
+    }
+  };
  //call readPalette function? x-fingers.
- bitmap.readPalette();
+  bitmap.readPalette();
 
  //manipulate values to transform palette for rgb to change colors in palette
-palette.transform = function(data) {
-  for (var i = 0; i < data.length; i++) {
-    var red = Math.floor(Math.random() * 255);
-    var green = Math.floor(Math.random() * 255);
-    var blue = Math.floor(Math.random() * 255);
+  palette.transform = function(data) {
+    for (var i = 0; i < data.length; i++) {
+      var red = Math.floor(Math.random() * 255);
+      var green = Math.floor(Math.random() * 255);
+      var blue = Math.floor(Math.random() * 255);
 
-    data[i] = [red, green, blue, 0];
-  }
-  return data;
-};
+      data[i] = [red, green, blue, 0];
+    }
+    return data;
+  };
 
 //call transform function, store array in variable, make one array with all nested arrays
-var transformedPalette = palette.transoform(palette);
-var allArray = [];
+  var transformedPalette = palette.transoform(palette);
+  var allArray = [];
 
-transformedPalette.forEach(function(item) {
-  item.forEach(function(item2) {
-    allArray.push(item2);
+  transformedPalette.forEach(function(item) {
+    item.forEach(function(item2) {
+      allArray.push(item2);
+    });
+  });
+
+//create new buffer of transformed color palette
+  var paletteBuffer = new Buffer(allArray);
+  var header = bufferData.slice(0, 54);
+  var tail = bufferData.slice(1078);
+  //concat header, transform buffer and tail to read to file
+  var newBuffer = Buffer.concat([header, paletteBuffer, tail]);
+  //write new buffer to file
+  fs.writeFile(`${__dirname}../img/palette-bmp.bmp`, newBuffer, (err) => {
+    if (err) {
+      console.log('error', err);
+    }
   });
 });
-
 
 
 // notice that logging the length of the pallette gives us 256... leads
