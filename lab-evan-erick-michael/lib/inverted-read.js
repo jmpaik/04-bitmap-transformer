@@ -18,6 +18,18 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
 //read color palette into integer array
   var invertedPalette = [];
 
+  bitmap.readPalette = function(palette) {
+    var counter = 0;
+    for (var i = 54; i < bitmap.pixelStart; i += 4) {
+      palette[counter] = [
+        bufferData.readUInt8(i),
+        bufferData.readUInt8(i + 1),
+        bufferData.readUInt8(i + 2),
+        0];
+      counter++;
+    }
+  };
+
  //call readPalette function? x-fingers.
   bitmap.readPalette(invertedPalette);
 
