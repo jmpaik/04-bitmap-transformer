@@ -8,26 +8,12 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
     console.log('error', err);
   }
 
-// const bitmap = fs.readFileSync(`${__dirname}../img/palette-bmp.bmp`);
-// const bitmap = fs.readFileSync(`../img/palette-bitmap.bmp`);
-// var bmp = require('../model/bitmap-constructor.js');
-//
-// console.log(bmp);
-
 //convert buffer into JS Object
   var bitmap = {};
   bitmap.size = bufferData.readInt32LE(2);
   bitmap.pixelStart = bufferData.readInt32LE(10);
   bitmap.dBISize = bufferData.readInt32LE(12);
   bitmap.colorPalette = bufferData.readInt32LE(54);
-  // bitmap.toString('utf-8', 0, 2),
-  // bitmap.readInt32LE(2),
-  // bitmap.readInt32LE(18),
-  // bitmap.readInt32LE(22),
-  // bitmap.readInt32LE(10),
-  // bitmap.readInt32LE(46)
-
-// console.log(ourBmp);
 
 //read color palette into integer array
   var palette = [];
@@ -116,22 +102,3 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
     }
   });
 });
-
-
-// notice that logging the length of the pallette gives us 256... leads
-// me to believe that each 2 chars represents a color in the pallette
-// if my theory is correct, I think the representations in the pix array
-// will correlate to those codes, as in the color pallete lists all possible colors
-// and the pix array will reference those to describe what should be displayed.
-// I'll keep digging
-
-// var createGroupedArray = function(name, arr, chunkSize, newArray) {
-//   var groups = [], i;
-//   for (i = 0; i < arr.length; i += chunkSize) {
-//     groups.push(arr.slice(i, i + chunkSize));
-//   }
-//   newArray.push(groups);
-//   console.log(name, newArray);
-// };
-// createGroupedArray('colors', ourBmp.colorTable, 4, ourBmp.ourColors);
-// createGroupedArray('pixArrayBrokenDown', ourBmp.pixArray, 4, ourBmp.pixArrayBrokenDown);
