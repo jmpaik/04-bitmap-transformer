@@ -34,16 +34,16 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   bitmap.readPalette(palette);
 
  //manipulate values to transform palette for rgb to change colors in palette
-  palette.transform = function(data) {
-    for (var i = 0; i < data.length; i++) {
-      var red = Math.floor(Math.random() * 255);
-      var green = Math.floor(Math.random() * 255);
-      var blue = Math.floor(Math.random() * 255);
-
-      data[i] = [red, green, blue, 0];
-    }
-    return data;
-  };
+  // palette.transform = function(data) {
+  //   for (var i = 0; i < data.length; i++) {
+  //     var red = Math.floor(Math.random() * 255);
+  //     var green = Math.floor(Math.random() * 255);
+  //     var blue = Math.floor(Math.random() * 255);
+  //
+  //     data[i] = [red, green, blue, 0];
+  //   }
+  //   return data;
+  // };
 
 //call transform function, store array in variable, make one array with all nested arrays
   var transformedPalette = palette.transform(palette);
