@@ -37,11 +37,14 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   scalingPalette.transformScale = function(data) {
     for(var i=0;i<data.length;i++) {
       let red = bufferData.readUInt8(i);
-      red*=(.9);
+      red/=255;
+      red*=100;
       let green = bufferData.readUInt8(i + 1);
-      green*=(.9);
+      green/=255;
+      green*=100;
       let blue = bufferData.readUInt8(i + 2);
-      blue*=(.9);
+      blue/=255;
+      blue*=100;
       data[i] = [red, green, blue, 0];
     }
     return data;
