@@ -9,29 +9,54 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   }
 
 //convert buffer into JS Object
-  var bitmap = {};
-  bitmap.size = bufferData.readInt32LE(2);
-  bitmap.pixelStart = bufferData.readInt32LE(10);
-  bitmap.dBISize = bufferData.readInt32LE(12);
-  bitmap.colorPalette = bufferData.readInt32LE(54);
+  // var bitmap = {};
+  var BMP = require('../model/bitmap-constructor.js');
+   var gray = new BMP(
+     bufferData.toString('utf-8', 0, 2),
+     bufferData.readInt32LE(2),
+     bufferData.readInt32LE(10),
+     bufferData.readInt32LE(12),
+     bufferData.readInt32LE(54)
+   );
+   var inverted = new BMP(
+     bufferData.toString('utf-8', 0, 2),
+     bufferData.readInt32LE(2),
+     bufferData.readInt32LE(10),
+     bufferData.readInt32LE(12),
+     bufferData.readInt32LE(54)
+   );
+   var random = new BMP(
+     bufferData.toString('utf-8', 0, 2),
+     bufferData.readInt32LE(2),
+     bufferData.readInt32LE(10),
+     bufferData.readInt32LE(12),
+     bufferData.readInt32LE(54)
+   );
+   var colorScaling = new BMP(
+     bufferData.toString('utf-8', 0, 2),
+     bufferData.readInt32LE(2),
+     bufferData.readInt32LE(10),
+     bufferData.readInt32LE(12),
+     bufferData.readInt32LE(54)
+   );
 
 //read color palette into integer array
-  var palette = [];
-
-  bitmap.readPalette = function(palette) {
-    var counter = 0;
-    for (var i = 54; i < bitmap.pixelStart; i += 4) {
-      palette[counter] = [
-        bufferData.readUInt8(i),
-        bufferData.readUInt8(i + 1),
-        bufferData.readUInt8(i + 2),
-        0];
-      counter++;
-    }
-  };
+  // var palette = [];
+  //
+  // bitmap.readPalette = function(palette) {
+  //   var counter = 0;
+  //   for (var i = 54; i < bitmap.pixelStart; i += 4) {
+  //     palette[counter] = [
+  //       bufferData.readUInt8(i),
+  //       bufferData.readUInt8(i + 1),
+  //       bufferData.readUInt8(i + 2),
+  //       0];
+  //     counter++;
+  //   }
+  // };
 
  //call readPalette function? x-fingers.
-  bitmap.readPalette(palette);
+  // bitmap.readPalette(palette);
 
  //manipulate values to transform palette for rgb to change colors in palette
   // palette.transform = function(data) {
@@ -63,6 +88,21 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   var newBuffer = Buffer.concat([header, paletteBuffer, tail]);
   //write new buffer to file
   fs.writeFile('../img/palette-bmp.bmp', newBuffer, (err) => {
+    if (err) {
+      console.log('error', err);
+    }
+  });
+  fs.writeFile('../img/palette-inverted.bmp', newBuffer, (err) => {
+    if (err) {
+      console.log('error', err);
+    }
+  });
+  fs.writeFile('../img/colorScale-bmp.bmp', newBuffer, (err) => {
+    if (err) {
+      console.log('error', err);
+    }
+  });
+  fs.writeFile('../img/grayscale-bmp.bmp', newBuffer, (err) => {
     if (err) {
       console.log('error', err);
     }
