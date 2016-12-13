@@ -14,4 +14,22 @@ describe('bitmap transform testing', () => {
     let transformedImage = fs.readFileSync('../img/palette-bmp.bmp');
     expect(image).to.not.equal(transformedImage);
   });
+
+  it('write a new image to a file', () => {
+    let image = fs.readFileSync('../img/palette-bitmap.bmp');
+    let transformedImage = fs.readFileSync('../img/palette-inverted.bmp');
+    expect(image).to.not.equal(transformedImage);
+  });
+
+  it('write a new image to a file', () => {
+    let image = fs.readFileSync('../img/palette-bitmap.bmp');
+    let transformedImage = fs.readFileSync('../img/grayscale-bmp.bmp');
+    expect(image).to.not.equal(transformedImage);
+  });
+
+  it('write a new image to a file', () => {
+    let image = fs.readFileSync('../img/palette-bitmap.bmp');
+    let transformedImage = fs.readFileSync('../img/colorScale-bmp.bmp');
+    expect(image).to.not.equal(transformedImage);
+  });
 });
