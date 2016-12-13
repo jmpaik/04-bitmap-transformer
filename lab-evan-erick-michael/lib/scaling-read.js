@@ -71,6 +71,6 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   fs.writeFile('../img/colorScale-bmp.bmp', newScaled, (err) => {
     if(err) {
       console.log('error', err);
-    };
+    }
   });
 });
