@@ -11,34 +11,38 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
 //convert buffer into JS Object
   // var bitmap = {};
   var BMP = require('../model/bitmap-constructor.js');
-   var gray = new BMP(
+  var gray = new BMP(
      bufferData.toString('utf-8', 0, 2),
      bufferData.readInt32LE(2),
      bufferData.readInt32LE(10),
      bufferData.readInt32LE(12),
      bufferData.readInt32LE(54)
    );
-   var inverted = new BMP(
+  console.log(gray);
+  var inverted = new BMP(
      bufferData.toString('utf-8', 0, 2),
      bufferData.readInt32LE(2),
      bufferData.readInt32LE(10),
      bufferData.readInt32LE(12),
      bufferData.readInt32LE(54)
    );
-   var random = new BMP(
+  console.log(inverted);
+  var random = new BMP(
      bufferData.toString('utf-8', 0, 2),
      bufferData.readInt32LE(2),
      bufferData.readInt32LE(10),
      bufferData.readInt32LE(12),
      bufferData.readInt32LE(54)
    );
-   var colorScaling = new BMP(
+  console.log(random);
+  var colorScaling = new BMP(
      bufferData.toString('utf-8', 0, 2),
      bufferData.readInt32LE(2),
      bufferData.readInt32LE(10),
      bufferData.readInt32LE(12),
      bufferData.readInt32LE(54)
    );
+  console.log(colorScaling);
 
 //read color palette into integer array
   // var palette = [];
@@ -71,17 +75,34 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   // };
 
 //call transform function, store array in variable, make one array with all nested arrays
-  var transformedPalette = palette.transform(palette);
-  var allArray = [];
-
-  transformedPalette.forEach(function(item) {
+  // var allArray = [];
+  //
+  gray.grayPalette.forEach(function(item) {
     item.forEach(function(item2) {
-      allArray.push(item2);
+      gray.transformedGrayPalette.push(item2);
+    });
+  });
+
+  inverted.invertedPalette.forEach(function(item) {
+    item.forEach(function(item2) {
+      inverted.transformedPaletteInverted.push(item2);
+    });
+  });
+
+  random.randomPalette.forEach(function(item) {
+    item.forEach(function(item2) {
+      random.transformedRandomPalette.push(item2);
+    });
+  });
+
+  colorScaling.scaledPalette.forEach(function(item) {
+    item.forEach(function(item2) {
+      colorScaling.transformedScaledPalette.push(item2);
     });
   });
 
 //create new buffer of transformed color palette
-  var paletteBuffer = new Buffer(allArray);
+  var paletteBuffer = new Buffer([]);
   var header = bufferData.slice(0, 54);
   var tail = bufferData.slice(1078);
   //concat header, transform buffer and tail to read to file
@@ -91,19 +112,20 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
     if (err) {
       console.log('error', err);
     }
+    fs.writeFile('../img/palette-inverted.bmp', newBuffer, (err) => {
+      if (err) {
+        console.log('error', err);
+      }
+      fs.writeFile('../img/colorScale-bmp.bmp', newBuffer, (err) => {
+        if (err) {
+          console.log('error', err);
+        }
+        fs.writeFile('../img/grayscale-bmp.bmp', newBuffer, (err) => {
+          if (err) {
+            console.log('error', err);
+          }
+        });
+      });
+    });
   });
-  fs.writeFile('../img/palette-inverted.bmp', newBuffer, (err) => {
-    if (err) {
-      console.log('error', err);
-    }
-  });
-  fs.writeFile('../img/colorScale-bmp.bmp', newBuffer, (err) => {
-    if (err) {
-      console.log('error', err);
-    }
-  });
-  fs.writeFile('../img/grayscale-bmp.bmp', newBuffer, (err) => {
-    if (err) {
-      console.log('error', err);
-    }
-  });
+});
