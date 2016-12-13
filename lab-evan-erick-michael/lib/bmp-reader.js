@@ -125,7 +125,53 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
     console.log(gray.grayPalette);
     return gray.grayPalette;
   };
+
+  var randomTransform = function(data) {
+    for (var i = 0; i < random.randomPalette.length; i++) {
+      let red = Math.floor(Math.random() * 255);
+      let green = Math.floor(Math.random() * 255);
+      let blue = Math.floor(Math.random() * 255);
+
+      random.randomPalette[i] = [red, green, blue, 0];
+    }
+    console.log(random.randomPalette);
+    return random.randomPalette;
+  };
+
+  var invertedTransform = function() {
+    for (var i = 0; i < inverted.invertedPalette.length; i++) {
+      let pixelPalette = inverted.invertedPalette[i];
+      let red = 255 - pixelPalette[0];
+      let green = 255 - pixelPalette[1];
+      let blue = 255 - pixelPalette[2];
+
+      inverted.invertedPalette[i] = [red, green, blue, 0];
+    }
+    console.log(inverted.invertedPalette);
+    return inverted.invertedPalette;
+  };
+
+  var transformScale = function() {
+    for(var i=0;i<colorScaling.scaledPalette.length;i++) {
+      let red = bufferData.readUInt8(i);
+      red/=255;
+      red = Math.round(red*=100);
+      let green = bufferData.readUInt8(i + 1);
+      green/=255;
+      green = Math.round(green*=100);
+      let blue = bufferData.readUInt8(i + 2);
+      blue/=255;
+      blue = Math.round(blue*=100);
+      colorScaling.scaledPalette[i] = [red, green, blue, 0];
+    }
+    console.log(colorScaling.scaledPalette);
+    return colorScaling.scaledPalette;
+  };
+
   transformGray();
+  randomTransform();
+  invertedTransform();
+  transformScale();
   // gray.getMaxVal();
   // inverted.readPalette();
   // random.readPalette();
