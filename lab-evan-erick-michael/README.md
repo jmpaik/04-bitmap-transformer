@@ -3,8 +3,11 @@
 ### What does this app do?
 
 The purpose of this app is listed below:
+
 1) Reads the contents of a 16-bit bitmap image file called "palette-bitmap.bmp".
+
 2) Manipulates the pixels with 4 different types of transforms, which include a grayscale effect, inversion effect, shading effect (color scale) and random effect.
+
 3) Collects the outputted pixels from each transform, reformats and writes the new pixel information to unique bitmap image files.
 
 ### How do I use this app?
