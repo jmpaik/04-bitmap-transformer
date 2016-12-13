@@ -2,17 +2,17 @@
 
 function TransformConstructor() {
 
-  this.transformGray = function(data) {
-    for (var i = 0; i < data.length; i++) {
-      let red = this.grayPalette[i];
-      let green = this.grayPalette[i];
-      let blue = this.grayPalette[i];
-
-      data[i] = [red, green, blue, 0];
-    }
-    console.log(data);
-    return data;
-  };
+  // this.transformGray = function(data) {
+  //   for (var i = 0; i < data.length; i++) {
+  //     let red = this.grayPalette[i];
+  //     let green = this.grayPalette[i];
+  //     let blue = this.grayPalette[i];
+  //
+  //     data[i] = [red, green, blue, 0];
+  //   }
+  //   console.log(data);
+  //   return data;
+  // };
   this.randomTransform = function(data) {
     for (var i = 0; i < data.length; i++) {
       let red = Math.floor(Math.random() * 255);
@@ -53,10 +53,10 @@ function TransformConstructor() {
     return data;
   };
 
-  this.transformedGrayPalette = this.transformGray(this.grayPalette);
-  this.transformedRandomPalette = this.randomTransform(this.randomPalette);
-  this.transformedPaletteInverted = this.invertedTransform(this.invertedPalette);
-  this.transformedScaledPalette = this.transformScale(this.scaledPalette);
+  // this.transformedGrayPalette = this.transformGray(this.grayPalette);
+  // this.transformedRandomPalette = this.randomTransform(this.randomPalette);
+  // this.transformedPaletteInverted = this.invertedTransform(this.invertedPalette);
+  // this.transformedScaledPalette = this.transformScale(this.scaledPalette);
   this.wholeArray = [];
 
 }

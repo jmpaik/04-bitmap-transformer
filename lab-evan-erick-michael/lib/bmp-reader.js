@@ -74,6 +74,62 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   //   return data;
   // };
 
+  var getMaxVal = function() {
+    var counter = 0;
+    for (var i = 54; i < gray.pixelStart; i += 4) {
+      gray.grayPalette[counter] = [
+        Math.ceil(bufferData.readUInt8(i),
+          bufferData.readUInt8(i + 1),
+          bufferData.readUInt8(i + 2)
+        )
+      ];
+      counter++;
+    }
+    console.log(gray.grayPalette);
+  };
+  var readPalette = function() {
+    var counter = 0;
+    for (var i = 54; i < 1078; i += 4) {
+      inverted.invertedPalette[counter] = [
+        bufferData.readUInt8(i),
+        bufferData.readUInt8(i + 1),
+        bufferData.readUInt8(i + 2),
+        0];
+      colorScaling.scaledPalette[counter] = [
+        bufferData.readUInt8(i),
+        bufferData.readUInt8(i + 1),
+        bufferData.readUInt8(i + 2),
+        0];
+      random.randomPalette[counter] = [
+        bufferData.readUInt8(i),
+        bufferData.readUInt8(i + 1),
+        bufferData.readUInt8(i + 2),
+        0];
+      counter++;
+    }
+    console.log(inverted.invertedPalette);
+    console.log(colorScaling.scaledPalette);
+    console.log(random.randomPalette);
+  };
+  getMaxVal();
+  readPalette();
+
+  var transformGray = function() {
+    for (var i = 0; i < gray.grayPalette.length; i++) {
+      let red = gray.grayPalette[i];
+      let green = gray.grayPalette[i];
+      let blue = gray.grayPalette[i];
+
+      gray.grayPalette[i] = [red, green, blue, 0];
+    }
+    console.log(gray.grayPalette);
+    return gray.grayPalette;
+  };
+  transformGray();
+  // gray.getMaxVal();
+  // inverted.readPalette();
+  // random.readPalette();
+  // colorScaling.readPalette();
 //call transform function, store array in variable, make one array with all nested arrays
   // var allArray = [];
   //
@@ -102,25 +158,31 @@ module.exports = fs.readFile('../img/palette-bitmap.bmp', (err, bufferData) => {
   });
 
 //create new buffer of transformed color palette
-  var paletteBuffer = new Buffer([]);
+  var grayBuffer = new Buffer(gray.transformedGrayPalette);
+  var invertedBuffer = new Buffer(inverted.transformedPaletteInverted);
+  var randomBuffer = new Buffer(random.transformedRandomPalette);
+  var colorScalingBuffer = new Buffer(colorScaling.transformedScaledPalette);
   var header = bufferData.slice(0, 54);
   var tail = bufferData.slice(1078);
   //concat header, transform buffer and tail to read to file
-  var newBuffer = Buffer.concat([header, paletteBuffer, tail]);
+  var newBufferGray = Buffer.concat([header, grayBuffer, tail]);
+  var newBufferInverted = Buffer.concat([header, invertedBuffer, tail]);
+  var newBufferRandom = Buffer.concat([header, randomBuffer, tail]);
+  var newBufferScaled = Buffer.concat([header, colorScalingBuffer, tail]);
   //write new buffer to file
-  fs.writeFile('../img/palette-bmp.bmp', newBuffer, (err) => {
+  fs.writeFile('../img/palette-bmp.bmp', newBufferRandom, (err) => {
     if (err) {
       console.log('error', err);
     }
-    fs.writeFile('../img/palette-inverted.bmp', newBuffer, (err) => {
+    fs.writeFile('../img/palette-inverted.bmp', newBufferInverted, (err) => {
       if (err) {
         console.log('error', err);
       }
-      fs.writeFile('../img/colorScale-bmp.bmp', newBuffer, (err) => {
+      fs.writeFile('../img/colorScale-bmp.bmp', newBufferScaled, (err) => {
         if (err) {
           console.log('error', err);
         }
-        fs.writeFile('../img/grayscale-bmp.bmp', newBuffer, (err) => {
+        fs.writeFile('../img/grayscale-bmp.bmp', newBufferGray, (err) => {
           if (err) {
             console.log('error', err);
           }
